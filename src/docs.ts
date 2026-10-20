@@ -10,6 +10,12 @@ import seo from './content/seo-checklist.md?raw';
 import branding from './content/branding-rules.md?raw';
 import buildDeploy from './content/build-test-deploy.md?raw';
 import gotchas from './content/gotchas.md?raw';
+import sitePages from './content/site-pages-map.md?raw';
+import homeSections from './content/homepage-sections.md?raw';
+import socialLinks from './content/social-links.md?raw';
+import comingSoon from './content/coming-soon-roadmap.md?raw';
+import themeSystem from './content/theme-system.md?raw';
+import staticAssets from './content/static-assets.md?raw';
 import webApps from './content/web-apps-guide.md?raw';
 import androidPlay from './content/android-play-console.md?raw';
 import extensionCws from './content/chrome-extension-cws.md?raw';
@@ -49,6 +55,17 @@ export const sections: Section[] = [
       { slug: 'i18n', title: 'Hindi/English (i18n) system', md: i18n },
       { slug: 'icons-images', title: 'Icons aur images ke rules', md: iconsImages },
       { slug: 'seo', title: 'SEO checklist', md: seo },
+    ],
+  },
+  {
+    title: 'dusrel.com — Pages & UI',
+    chapters: [
+      { slug: 'site-pages', title: 'Site ka map — saare pages', md: sitePages },
+      { slug: 'homepage-sections', title: 'Homepage sections guide', md: homeSections },
+      { slug: 'social-links', title: 'Social links (social.ts)', md: socialLinks },
+      { slug: 'coming-soon', title: 'Coming soon, Roadmap aur Waitlist', md: comingSoon },
+      { slug: 'theme', title: 'Theme system (light/dark)', md: themeSystem },
+      { slug: 'static-assets', title: 'Static assets — robots, PWA, logos', md: staticAssets },
     ],
   },
   {
