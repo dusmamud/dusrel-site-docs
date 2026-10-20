@@ -291,32 +291,75 @@ Har naya page banate waqt yeh check karo. \`Base.astro\` layout ye props leta ha
   lang="en"
   title="Page title — 60 chars se kam"
   description="150 chars ke aas-paas, page-specific"
-  canonical="https://dusrel.com/apps/mera-app"
+  canonical="https://dusrel.com/apps/mera-app/"
+  image="/og-mera-app.png"
   noindex={false}
 />
 \`\`\`
 
+## Sabse zaroori rule — trailing slash
+
+Cloudflare bina-slash wale URL ko slash wale par 308 redirect karta hai, aur
+sitemap bhi slash wala URL deta hai. Isliye **canonical, og:url, hreflang —
+sab hamesha trailing slash ke saath**. Ek waqt par canonical bina slash ke
+tha aur sitemap slash ke saath — is "canonical loop" ki wajah se Google
+pages ko index hi nahi kar raha tha ("alternate page" dikhata tha).
+\`Base.astro\` ab khud slash normalize kar deta hai, bas canonical dete waqt
+dhyaan rakho.
+
 ## Rules
 
-- **Har page ka title/description unique** — do pages par same meta mat likho (duplicate title Google ko pasand nahi)
+- **Har page ka title/description unique** — do pages par same meta mat likho
 - **Length:** title ~60 chars, description ~135–155 chars
-- **Locale tags:** \`og:locale\` auto lagta hai (\`en_US\` / \`hi_IN\`... — site ke hisaab se)
+- **OG image:** har page par \`og:image\` lagta hai (default \`/og-default.png\`) — naye main page/app ke liye \`public/og-<naam>.png\` (1200×630) banao aur \`image\` prop do
+- **Locale tags:** \`og:locale\` auto lagta hai (\`en_US\` / \`hi_IN\` + alternate)
 - **404 page:** \`noindex\` — search mein nahi aana chahiye
-- **Canonical URL:** hamesha \`https://dusrel.com/...\` (bina trailing slash confusion ke)
 
-## Structured data (JSON-LD)
+## Structured data (JSON-LD) — kya auto hai, kya manual
 
-Homepage par **Organization + WebSite** schema hai:
+**\`Base.astro\` har page par khud lagata hai (kuch karna nahi):**
 
-- Organization: \`Dusrel\`
-- Logo: \`https://dusrel.com/logo.png\`
-- sameAs: x.com/dusrel, instagram, facebook, youtube, linkedin
+- **Organization** — name, logo (\`/logo.png\`), slogan, aur \`sameAs\` jo
+  \`src/data/social.ts\` ke 16 social profiles se auto banta hai
+- **BreadcrumbList** — canonical URL ke path se auto-generate (Home → Apps →
+  App → Download → Platform tak). Naya page = breadcrumbs free mein
+- **WebSite** — sirf homepage par
 
-Naye app ke detail page par uske hisaab ka schema add karna mat bhoolo (jaise FAQ ho toh FAQPage).
+**Page-specific schema (template khud lagata hai):**
+
+| Page | Schema |
+|---|---|
+| Homepage | FAQPage (homepage FAQ se) |
+| App detail | SoftwareApplication (rich: description, image, category, featureList, author) + FAQPage |
+| /apps hub | ItemList (saare live apps) |
+| Download index | ItemList + FAQPage |
+| Download platform | SoftwareApplication + FAQPage |
+
+**App ki category** \`src/data/apps.ts\` ke \`appCategory\` map mein hai
+(schema.org values: \`UtilitiesApplication\`, \`MultimediaApplication\`,
+\`BusinessApplication\`…) — naya app add karte waqt wahan entry dalna.
+
+> ⚠️ **FAQ rich results Google ne band kar diye hain** (2023 mein sirf
+> gov/health sites tak simit hue, 2026 mein poori tarah deprecated — Exa se
+> verified). FAQPage schema phir bhi rakhte hain: visible FAQ content AI
+> answer engines (ChatGPT/Perplexity) ke kaam aata hai aur Bing use karta
+> hai; Google ko isse koi nuksaan nahi, bas snippet ki ummeed mat rakho.
+> **Fake ratings/reviews kabhi mat dalna** — policy violation hai.
+
+## AEO (AI search)
+
+- \`public/llms.txt\` — site ka markdown index AI tools ke liye. Naya app ya
+  main page add ho toh wahan bhi ek line jodo. (Honest note: Ahrefs ki
+  137K-site study ke mutabiq zyada tar llms.txt files koi padhta hi nahi —
+  yeh sasti insurance hai, jaadoo nahi. Asli AEO = saaf Q&A content aur
+  sahi schema, jo upar covered hai.)
+- Visible FAQ sections har app page + download pages par isiliye hain —
+  AI engines Q&A format content cite karte hain.
 
 ## Sitemap
 
-\`npm run build\` ke baad \`dist/sitemap-0.xml\` + \`sitemap-index.xml\` auto-generate hote hain. Naya page verify karo:
+\`npm run build\` ke baad \`dist/sitemap-0.xml\` + \`sitemap-index.xml\`
+auto-generate hote hain. Naya page verify karo:
 
 \`\`\`bash
 grep -o "https://dusrel.com/apps/mera-app[^<]*" dist/sitemap-0.xml
@@ -324,10 +367,15 @@ grep -o "https://dusrel.com/apps/mera-app[^<]*" dist/sitemap-0.xml
 
 Sitemap mein hai = Google index karega. Download pages bhi isi mein aate hain.
 
-## Social preview (OG/Twitter)
+## Verify karna
 
-- Har main page par OG tags hain; zaroori pages ke liye \`public/og-<page>.png\` (1200×630) banao
-- \`twitter:site\` / \`twitter:creator\` — app ke official handle par set karo
+\`\`\`bash
+npm run build
+# Page par kaun se schema lage — sab valid JSON hone chahiye:
+grep -o '"@type":"[A-Za-z]*"' dist/apps/mera-app/index.html | sort -u
+# Organization mein sameAs null toh nahi (social.ts ka field \`url\` hai, \`href\` nahi!):
+grep -o '"sameAs":\\[[^]]*\\]' dist/index.html | head -c 200
+\`\`\`
 `}]},{title:`dusrel.com — Pages & UI`,chapters:[{slug:`site-pages`,title:`Site ka map — saare pages`,md:"# Site ka map — saare pages\n\ndusrel.com par kul itne pages hain — har ek ke **EN + HI dono versions** (`/hi/...`). Naya page banane ki zaroorat kam padti hai, par existing ko edit karna ho toh yeh map kaam aayega.\n\n## Pages inventory\n\n| Page | URL | Kya hai | Content kahan hai |\n|---|---|---|---|\n| Home | `/` | Landing page — 12 sections | `src/pages/index.astro` + components (agle chapter mein) |\n| Apps hub | `/apps` | Saare live apps ki grid | `apps.ts` se auto — `src/pages/apps/index.astro` |\n| App detail | `/apps/<slug>` | Har app ka detail page | `apps.ts` + `appPages` i18n (auto-generate) |\n| Downloads | `/apps/<slug>/download[/<platform>]` | Download pages | `downloads.ts` (auto-generate) |\n| About | `/about` | Dusrel ki kahani | `src/pages/about.astro` + i18n `about` |\n| Brand | `/brand` | Logo variants, brand colors | `src/pages/brand.astro` + `public/logo/` |\n| Changelog | `/changelog` | Har launch/milestone, newest first | i18n `changelog` entries |\n| Contact | `/contact` | Contact info | `src/pages/contact.astro` + i18n |\n| Open Source | `/open-source` | Open source page | `src/pages/open-source.astro` + i18n |\n| Privacy Policy | `/privacy-policy` | Legal | `src/pages/privacy-policy.astro` + i18n |\n| Security | `/security` | Security practices | `src/pages/security.astro` + i18n |\n| Terms | `/terms` | Terms of use | `src/pages/terms.astro` + i18n |\n| 404 | har galat URL | Not found — `noindex` hai | `src/pages/404.astro` |\n\n## Page edit karne ka tareeqa\n\n1. Page ka text badalna ho → **`src/i18n/en.ts` + `hi.ts`** mein us page ki keys badlo (structure `.astro` file mein hai, text i18n mein)\n2. Layout/design badalna ho → us page ki `.astro` file (`src/pages/` mein; Hindi ke liye `src/pages/hi/` mein same file)\n3. **Dono languages ki `.astro` files sync rakho** — EN mein layout change kiya toh HI mein bhi karo\n\n## Changelog mein entry add karna\n\nNaya launch/milestone ho toh `en.ts` + `hi.ts` ke `changelog` array mein **sabse upar** nayi entry dalo (newest first rule hai) — date, title, body. Page khud render kar dega.\n\n## Naya static page banana pad jaye toh\n\n1. `src/pages/mera-page.astro` banao (kisi existing page ko template ki tarah copy karo)\n2. `src/pages/hi/mera-page.astro` bhi banao\n3. i18n keys dono files mein add karo\n4. `Base` layout use karo — title/description/canonical props ke saath (**SEO checklist** dekho)\n5. Footer/nav mein link chahiye toh `SiteNav.astro` / `Footer.astro` mein real page link add karo — `#anchor` kabhi nahi (rule hai)\n"},{slug:`homepage-sections`,title:`Homepage sections guide`,md:'# Homepage sections guide\n\nHomepage (`src/pages/index.astro`) 12 components ka bana hai. Har component `src/components/` mein hai aur `lang` prop leta hai. Order page par yahi hai:\n\n| # | Section | Component | Data / content kahan se |\n|---|---|---|---|\n| 1 | Hero | `Hero.astro` | i18n `hero` + app icons ka orbit (`apps.ts` live apps) |\n| 2 | Ecosystem | `Ecosystem.astro` | `apps.ts` — live + soon apps ki grid |\n| 3 | Devices | `Devices.astro` | i18n `devices` |\n| 4 | How It Works | `HowItWorks.astro` | i18n `howItWorks` |\n| 5 | Showcase | `Showcase.astro` | `showcase-<slug>.jpg` images + `apps.ts` |\n| 6 | Why Dusrel | `WhyDusrel.astro` | i18n `why` |\n| 7 | Roadmap | `Roadmap.astro` | `soonApps` — **Coming soon** chapter dekho |\n| 8 | Waitlist | `Waitlist.astro` | i18n `waitlist` + soon apps |\n| 9 | Pricing | `Pricing.astro` | i18n `pricing` |\n| 10 | Open Source | `OpenSource.astro` | i18n `openSource` |\n| 11 | FAQ | `Faq.astro` | i18n `faq` + **FAQPage JSON-LD** auto |\n| 12 | Final CTA | `FinalCta.astro` | i18n `finalCta` + `public/images/cta-banner.jpg` |\n\n## Section edit karna\n\n- **Text badalna:** `src/i18n/en.ts` + `hi.ts` mein us section ki keys — component ko chhune ki zaroorat nahi\n- **Design badalna:** `src/components/<Section>.astro` — ek hi component EN/HI dono serve karta hai (`lang` prop se), isliye ek jagah change = dono languages updated ✅\n- **Section hatana/order badalna:** `src/pages/index.astro` + `src/pages/hi/index.astro` — dono mein same change karo\n\n## FAQ add karna\n\n`en.ts` + `hi.ts` ke `faq` array mein question/answer add karo — page par accordion bhi banega aur **FAQPage JSON-LD schema bhi auto update** hoga (Google rich results ke liye). Sirf ek language mein add mat karna — dono mein dalo.\n\n## Header & Footer (har page par)\n\n- `SiteNav.astro` — top navigation. **Rule: sirf real page links, `#anchor` kabhi nahi**\n- `Footer.astro` — social icons (`social.ts` se, agla chapter), page links, "A Dusrel product" wali branding\n- `ThemeToggle.astro` — light/dark switch (Theme system chapter)\n'},{slug:`social-links`,title:`Social links (social.ts)`,md:'# Social links (social.ts)\n\nFooter ke social icons ka **single source of truth**: `src/data/social.ts`. Har entry ek `name`, profile `url`, aur 24×24 ka brand glyph `<path>`.\n\n## Design rule (janboojhkar)\n\nSaare icons **monochrome** hain (`fill=currentColor`) — brand ke original colors **nahi** use hote. Yeh isliye taaki light/dark theme mein icons apne aap adapt kar jayein. Design choice hai, bhool se nahi hua.\n\n## Network add karna\n\n1. `src/data/social.ts` mein `socials` array mein ek entry add karo:\n   - `name`: "Dusrel on Bluesky" (accessible label)\n   - `url`: profile ka full URL — sab `dusrel` handle use karte hain\n   - `icon`: [simple-icons](https://simpleicons.org) se us network ka 24×24 `<path>` copy-paste karo\n2. `npm run build` — footer apne aap pick kar lega\n\nNetwork **hatana** ho toh entry delete karo — bas.\n\n## Handle ka dhyaan\n\nSaare profiles `dusrel` username ke hain. Jo handles abhi claim nahi hue hain unke links bhi list mein hain — **har platform par `dusrel` username claim karna baaki hai** (first-come-first-served). Yeh pending kaam list se mat hatao.\n\nShrinkIt ka official handle alag hai: **`@drskrinkit`** (X/Twitter) — yeh sirf ShrinkIt web app ke OG tags mein hai, dusrel.com footer mein nahi.\n'},{slug:`coming-soon`,title:`Coming soon, Roadmap aur Waitlist`,md:`# Coming soon, Roadmap aur Waitlist
 
 dusrel.com par jo apps abhi bane nahi hain (Drive, Chat, Docs, Sheets…) woh **coming soon** system se chalte hain — sab \`src/data/apps.ts\` se.
