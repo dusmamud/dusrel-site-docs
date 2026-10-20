@@ -38,11 +38,11 @@ Naya repo banana: `POST /user/repos '{"name":"mera-repo","private":false}'`
 
 ## Git author config
 
-Har repo mein author identity yahi rakho (tumhari asli identity):
+Dusrel repos mein commit identity **brand identity** rakho:
 
 ```bash
-git config user.name "dusmamud"
-git config user.email "dusmamud01@gmail.com"
+git config user.name "Dusrel"
+git config user.email "avni@dusrel.com"
 ```
 
-> Commit author hamesha `dusmamud <dusmamud01@gmail.com>` hona chahiye — koi assistant/bot naam mat use karo.
+> Dusrel ke saare repos (site, web-apps, docs…) mein commit author `Dusrel <avni@dusrel.com>` hona chahiye — koi assistant/bot naam mat use karo. (Purane kuch commits `dusmamud <dusmamud01@gmail.com>` se gaye hain — woh history hai, aage se Dusrel identity hi chalegi.)
