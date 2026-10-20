@@ -38,9 +38,11 @@ Naya repo banana: `POST /user/repos '{"name":"mera-repo","private":false}'`
 
 ## Git author config
 
-Har repo clone mein repo-local author set karo:
+Har repo mein author identity yahi rakho (tumhari asli identity):
 
 ```bash
-git config user.name "Muse"
-git config user.email "muse@<product>.local"
+git config user.name "dusmamud"
+git config user.email "dusmamud01@gmail.com"
 ```
+
+> Commit author hamesha `dusmamud <dusmamud01@gmail.com>` hona chahiye — koi assistant/bot naam mat use karo.
