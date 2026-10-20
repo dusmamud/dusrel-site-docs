@@ -45,4 +45,12 @@ curl -sI https://dusrel.com/apps/mera-app | head -1
 
 ## dusrel-site-docs (yeh site) ka deploy
 
-Yeh docs site abhi sirf repo mein hai. Jab deploy karna ho toh do options hain — GitHub Pages (free, repo se direct) ya Cloudflare Pages. Bata dena, setup kar dunga.
+Yeh site **GitHub Pages** par live hai: `https://dusmamud.github.io/dusrel-site-docs/`
+
+```bash
+npm run build
+cd dist && git init -qb gh-pages && git add -A && git commit -qm "deploy"
+# phir gh-push.py se dist/ ko dusrel-site-docs repo ke gh-pages branch par push karo
+```
+
+Repo settings mein Pages → Source: `gh-pages` branch. Hash routing (`#/chapter`) use hota hai, isliye refresh par 404 nahi aata.
