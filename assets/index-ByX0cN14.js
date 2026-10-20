@@ -355,8 +355,39 @@ dhyaan rakho.
   137K-site study ke mutabiq zyada tar llms.txt files koi padhta hi nahi —
   yeh sasti insurance hai, jaadoo nahi. Asli AEO = saaf Q&A content aur
   sahi schema, jo upar covered hai.)
+- \`public/llms-full.txt\` (2026-10-20 se) — saare key pages ka FULL text ek
+  markdown file mein. Build se pehle regenerate karna padta hai jab page
+  content badle: pehle \`npm run build\`, phir dist HTML se text nikaal kar
+  \`public/llms-full.txt\` overwrite karo, phir dobara build. llms.txt ke
+  "Optional" section mein iska link hai.
+- \`public/robots.txt\` (2026-10-20 se pura setup) — AI crawlers
+  (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot,
+  Google-Extended, CCBot waghera) EXPLICIT allow + Cloudflare
+  Content-Signal: \`ai-train=yes, search=yes, ai-input=yes\` (sab khula —
+  agar kabhi training rokna ho toh sirf \`ai-train=no\` karna, baaki yes
+  rehne dena warna AI answers mein citation band ho jayegi).
+- **IndexNow** (Bing/Yandex instant indexing) — key file
+  \`public/c54b075e98824246af9dd4103a19ba4c.txt\` repo mein hai (yehi key
+  hai, file content = key). Naye pages publish karne ke baad
+  api.indexnow.org ya bing.com/indexnow par POST
+  \`{host, key, keyLocation, urlList}\` bhejo. Note: 2026-10-20 ko sandbox
+  network se dono endpoints timeout hue the — submission kabhi atke toh
+  apni machine se bhejna; sitemap se engines waise bhi utha lete hain.
 - Visible FAQ sections har app page + download pages par isiliye hain —
   AI engines Q&A format content cite karte hain.
+
+## OpenSearch + site search
+
+- \`/search/\` + \`/hi/search/\` (2026-10-20 se) — client-side search page;
+  index build-time par apps/downloads/tools registries se banta hai
+  (\`src/components/SearchPage.astro\`), kabhi purana nahi padta.
+- \`public/opensearch.xml\` — browser ko Dusrel search engine add karne
+  deta hai; \`Base.astro\` har page ke head mein \`<link rel="search">\`
+  dalta hai, aur homepage ke WebSite schema mein SearchAction
+  (\`/search/?q={search_term_string}\`) hai.
+- Search page \`noindex\` hai aur \`astro.config.mjs\` ke sitemap filter se
+  sitemap ke bahar hai — search-results pages index nahi karte, yeh
+  sirf visitors/browsers ke liye hai.
 
 ## Sitemap
 
