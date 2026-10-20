@@ -10,7 +10,7 @@
 
 ## CWS developer account
 
-✅ **Account ban chuka hai** ($5 fee ho gaya). Display name: `Dusrel`, trader declare ho chuka hai (EU DSA).
+✅ **Account verified** — $5 fee complete. Display name: `Dusrel`, trader declare ho chuka hai (EU DSA).
 
 ## v1.0.0 submission — sab taiyaar hai
 

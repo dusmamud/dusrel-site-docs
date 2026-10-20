@@ -13,7 +13,7 @@
 - **Account type:** Individual ("Yourself") — Organisation ke liye registered company + D-U-N-S chahiye hota, jo abhi nahi hai
 - **Developer name:** `Dusrel`
 - **Website:** `https://dusrel.com`
-- **⏳ Pending (tumhare side):** $25 one-time payment · ID verification · phone verification
+- **✅ Verified:** $25 one-time payment · ID verification · phone verification — teeno complete
 
 ## Publishing ke rules (yaad rakhna)
 
@@ -23,4 +23,4 @@
 
 ## Aage ka plan
 
-Jab $25 + verifications complete ho jayein, tab: closed testing track → 12 testers × 14 din → production rollout. Tester list pehle se taiyaar rakhna — 12 real Gmail IDs chahiye honge.
+Verification complete hai ✅ — ab seedha closed testing track par jao: **12 testers, lagatar 14 din opted-in** → phir production rollout. Tester list pehle se taiyaar rakhna — 12 real Gmail IDs chahiye honge.
