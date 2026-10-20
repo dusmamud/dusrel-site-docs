@@ -50,6 +50,8 @@ dhyaan rakho.
 | /apps hub | ItemList (saare live apps) |
 | Download index | ItemList + FAQPage |
 | Download platform | SoftwareApplication + FAQPage |
+| Tools hub (/pass/) | ItemList + FAQPage |
+| Tool detail (/pass/…) | WebApplication + FAQPage |
 
 **App ki category** `src/data/apps.ts` ke `appCategory` map mein hai
 (schema.org values: `UtilitiesApplication`, `MultimediaApplication`,

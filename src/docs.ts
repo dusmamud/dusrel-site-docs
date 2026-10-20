@@ -4,6 +4,7 @@
 import overview from './content/overview.md?raw';
 import nayaApp from './content/naya-app-add-karna.md?raw';
 import downloadPages from './content/download-pages.md?raw';
+import toolsPages from './content/tools-pages.md?raw';
 import i18n from './content/i18n.md?raw';
 import iconsImages from './content/icons-images.md?raw';
 import seo from './content/seo-checklist.md?raw';
@@ -47,6 +48,7 @@ export const sections: Section[] = [
     chapters: [
       { slug: 'naya-app', title: 'Landing page par naya app add karna', md: nayaApp },
       { slug: 'download-pages', title: 'Download pages banana', md: downloadPages },
+      { slug: 'tools-pages', title: 'Tools pages (/pass/) banana', md: toolsPages },
     ],
   },
   {

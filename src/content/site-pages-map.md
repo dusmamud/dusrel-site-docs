@@ -10,6 +10,8 @@ dusrel.com par kul itne pages hain — har ek ke **EN + HI dono versions** (`/hi
 | Apps hub | `/apps` | Saare live apps ki grid | `apps.ts` se auto — `src/pages/apps/index.astro` |
 | App detail | `/apps/<slug>` | Har app ka detail page | `apps.ts` + `appPages` i18n (auto-generate) |
 | Downloads | `/apps/<slug>/download[/<platform>]` | Download pages | `downloads.ts` (auto-generate) |
+| Tools hub | `/pass/` | Saare free tools ek jagah (dono tools yahin functional) | `tools.ts` + i18n `tools.hub` — chapter: Tools pages |
+| Tool detail | `/pass/<tool-slug>` | Password Generator, Username Generator | `tools.ts` + i18n `tools.*` (auto cross-link) |
 | About | `/about` | Dusrel ki kahani | `src/pages/about.astro` + i18n `about` |
 | Brand | `/brand` | Logo variants, brand colors | `src/pages/brand.astro` + `public/logo/` |
 | Changelog | `/changelog` | Har launch/milestone, newest first | i18n `changelog` entries |
