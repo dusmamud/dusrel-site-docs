@@ -10,6 +10,13 @@ import seo from './content/seo-checklist.md?raw';
 import branding from './content/branding-rules.md?raw';
 import buildDeploy from './content/build-test-deploy.md?raw';
 import gotchas from './content/gotchas.md?raw';
+import webApps from './content/web-apps-guide.md?raw';
+import androidPlay from './content/android-play-console.md?raw';
+import extensionCws from './content/chrome-extension-cws.md?raw';
+import githubPush from './content/github-push.md?raw';
+import cloudflare from './content/cloudflare-dns.md?raw';
+import logoRules from './content/logo-icon-rules.md?raw';
+import nayaProduct from './content/naya-product-checklist.md?raw';
 
 export interface Chapter {
   slug: string;
@@ -42,6 +49,23 @@ export const sections: Section[] = [
       { slug: 'i18n', title: 'Hindi/English (i18n) system', md: i18n },
       { slug: 'icons-images', title: 'Icons aur images ke rules', md: iconsImages },
       { slug: 'seo', title: 'SEO checklist', md: seo },
+    ],
+  },
+  {
+    title: 'Products',
+    chapters: [
+      { slug: 'web-apps', title: 'Web apps guide (saare 5 apps)', md: webApps },
+      { slug: 'android', title: 'Android app + Play Console', md: androidPlay },
+      { slug: 'extension', title: 'Chrome extension + Web Store', md: extensionCws },
+    ],
+  },
+  {
+    title: 'Infra & Rules',
+    chapters: [
+      { slug: 'github-push', title: 'GitHub par push karna (gh-push.py)', md: githubPush },
+      { slug: 'cloudflare', title: 'Cloudflare, DNS aur email', md: cloudflare },
+      { slug: 'logo-rules', title: 'Logo & icon rules', md: logoRules },
+      { slug: 'naya-product', title: 'Naya product banane ki checklist', md: nayaProduct },
     ],
   },
   {

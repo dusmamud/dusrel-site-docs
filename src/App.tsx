@@ -53,7 +53,7 @@ export default function App() {
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#4d90fe] to-[#2b5fd9] text-sm font-extrabold text-white">
               D
             </span>
-            <span className="font-bold tracking-tight">
+            <span className="font-display font-bold tracking-tight">
               Dusrel <span className="font-normal text-slate-500 dark:text-slate-400">Site Docs</span>
             </span>
           </a>
