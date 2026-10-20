@@ -287,6 +287,184 @@ Sitemap mein hai = Google index karega. Download pages bhi isi mein aate hain.
 
 - Har main page par OG tags hain; zaroori pages ke liye \`public/og-<page>.png\` (1200×630) banao
 - \`twitter:site\` / \`twitter:creator\` — app ke official handle par set karo
+`}]},{title:`Products`,chapters:[{slug:`web-apps`,title:`Web apps guide (saare 5 apps)`,md:'# Web apps guide\n\n5 web apps hain — sab `~/workspace/dusrel/web-apps/` mein. Folder ka naam = GitHub repo ka naam (rule kabhi mat todo).\n\n## Har app ek nazar mein\n\n| App | Folder | Repo | Live URL | Deploy |\n|---|---|---|---|---|\n| ShrinkIt | `shrinkit` | `dusmamud/shrinkit` | `shrinkit.dusrel.com` | GitHub Actions → Cloudflare Pages (`shrinkit-dr`) |\n| Ricsline | `ricsline` | `dusmamud/ricsline` | `dusmamud.github.io/ricsline` | gh-pages + **autodeploy cron** (neeche dekho) |\n| Image Quill | `imglove` | `dusmamud/imglove` | `imagequill.dusrel.com` | GitHub Pages |\n| ResumeForge | `resumeforge` | `dusmamud/resumeforge` | `dusmamud.github.io/resumeforge` | GitHub Pages |\n| PDF Tools | `pdf-tools` | `dusmamud/pdf-tools` | — | — |\n\n> **Note:** Image Quill ka repo abhi bhi `imglove` naam se hai (rename pending). README ka `# ImgLove` title bhi stale hai — fix karna baaki hai.\n\n## Deploy ke tareeqe\n\n**Cloudflare Pages (ShrinkIt):** `main` par push → GitHub Actions build → Pages project `shrinkit-dr` par deploy.\n\n**GitHub Pages (baaki):** build → `dist/` ko `gh-pages` branch par push. Har build ke baad `dist/.git` wipe ho jata hai, isliye:\n\n```bash\nnpm run build\ncd dist && git init -qb gh-pages && git add -A && git commit -qm "deploy"\n# phir gh-push.py se gh-pages branch par push\n```\n\nPages CDN ko 2–4 minute lagte hain — hard refresh karke verify karo.\n\n## Ricsline autodeploy cron\n\nRicsline ke liye 15-minute ka cron hai (`ricsline-autodeploy`) jo `.autodeploy.py` chalata hai — naye commits check karta hai, build karta hai, aur `dist/` ko gh-pages par push karta hai. Body:\n\n```\n~/workspace/dusrel/web-apps/ricsline/.autodeploy.py\n```\n\nYeh isliye hai kyunki PAT mein `workflow` scope nahi hai — GitHub Actions se deploy nahi ho sakta.\n\n## Har app par Dusrel branding\n\nSab 5 apps par text co-branding lag chuki hai (header `by Dusrel` + footer `A Dusrel product` + about paragraph + README). Pattern ke liye **Branding rules** chapter dekho. Koi naya web app banao toh wahi pattern follow karo.\n'},{slug:`android`,title:`Android app + Play Console`,md:`# Android app + Play Console
+
+## ShrinkIt Android
+
+- **Folder:** \`~/workspace/dusrel/android-apps/shrinkit-android/\`
+- **Repo:** \`dusmamud/shrinkit-android\`
+- **Tech:** Kotlin (native)
+- **Package:** \`com.dusrel.shrinkit\`
+- **Branding status:** user-visible branding abhi **zero** hai (sirf package name mein \`dusrel\`) — web apps wala text co-branding yahan abhi nahi lagaya gaya (tumne Android ko exclude kiya tha)
+
+## Play Console account — status
+
+- **Account type:** Individual ("Yourself") — Organisation ke liye registered company + D-U-N-S chahiye hota, jo abhi nahi hai
+- **Developer name:** \`Dusrel\`
+- **Website:** \`https://dusrel.com\`
+- **⏳ Pending (tumhare side):** $25 one-time payment · ID verification · phone verification
+
+## Publishing ke rules (yaad rakhna)
+
+1. **Closed testing zaroori:** production se pehle kam se kam **12 testers**, lagatar **14 din** opted-in
+2. **FREE vs PAID irreversible hai:** app create karte waqt jo chuno wahi permanent. Recommendation: **FREE** (ecosystem ke hisaab se)
+3. **App icon:** 512×512 PNG + feature graphic 1024×500 — icon safe zone rules ke liye **Logo & icon rules** chapter dekho
+
+## Aage ka plan
+
+Jab $25 + verifications complete ho jayein, tab: closed testing track → 12 testers × 14 din → production rollout. Tester list pehle se taiyaar rakhna — 12 real Gmail IDs chahiye honge.
+`},{slug:`extension`,title:`Chrome extension + Web Store`,md:'# Chrome extension + Web Store (CWS)\n\n## ShrinkIt extension\n\n- **Folder:** `~/workspace/dusrel/extensions/shrinkit-extension/`\n- **Repo:** `dusmamud/shrinkit-extension`\n- **Tech:** WXT + React, Manifest V3\n- **Permissions:** `storage`, `downloads`, `contextMenus`, `tabs`, `offscreen` · host_permissions: `<all_urls>`\n- **Privacy URL:** `https://shrinkit.dusrel.com/privacy`\n\n## CWS developer account\n\n✅ **Account ban chuka hai** ($5 fee ho gaya). Display name: `Dusrel`, trader declare ho chuka hai (EU DSA).\n\n## v1.0.0 submission — sab taiyaar hai\n\n| Cheez | Kahan hai |\n|---|---|\n| Upload ZIP | `~/workspace/your_files/shrinkit-cws/shrinkit-v1.0.0.zip` |\n| Screenshot 1 (editor) | repo mein `store/screenshot-1-editor.png` (1280×800) |\n| Screenshot 2 (options) | repo mein `store/screenshot-2-options.png` (1280×800) |\n| Promo tile | repo mein `store/promo-tile-440x280.png` |\n| Review justification | repo mein `store/review-justification.md` |\n\n**⏳ Baaki bas ek kaam hai: CWS dashboard mein khud submit karna** — ZIP upload, assets add, description likhna, privacy URL dalna, aur review justification paste karna. Yeh dashboard ka kaam tumhare haath se hoga.\n\n## Review justification kyun zaroori hai\n\n`<all_urls>` ek "broad permission" hai — Google reviewer justification maangega. Ready text `store/review-justification.md` mein hai. Short summary:\n\n> Extension sirf us image ke bytes fetch karta hai jis par **user khud right-click kare** — koi browsing data, koi page content kabhi nahi padha jata.\n\n## Naye version ke liye\n\n1. `package.json` mein version bump karo\n2. `wxt build` → naya ZIP\n3. ZIP ko `public/downloads/` wali jagah + dusrel.com ke download page par update karo (**Download pages** chapter dekho — dusrel.com par ShrinkIt Chrome download page isi ZIP ko serve karta hai)\n'}]},{title:`Infra & Rules`,chapters:[{slug:`github-push`,title:`GitHub par push karna (gh-push.py)`,md:`# GitHub par push karna (gh-push.py)
+
+> **Plain \`git push\` HTTPS par kaam NAHI karta.** PAT sirf \`api.github.com\` ko authorize karta hai — isliye har push Git Data API se hota hai.
+
+## Push command
+
+\`\`\`bash
+PYTHONPATH=/opt/muse/skills/custom-connector-setup/bin \\
+~/workspace/custom-connectors/custom.legacy-github/bin/gh-push.py \\
+  <repo-folder> <owner/repo> <branch> "<commit message>"
+\`\`\`
+
+Example:
+
+\`\`\`bash
+PYTHONPATH=/opt/muse/skills/custom-connector-setup/bin \\
+~/workspace/custom-connectors/custom.legacy-github/bin/gh-push.py \\
+  ~/workspace/dusrel/site/dusrel-site dusmamud/dusrel main "feat: naya section"
+\`\`\`
+
+- Har file ek blob banta hai — bade repos mein **2–3 minute** lagte hain, normal hai
+- Script \`git ls-files\` use karta hai — sirf **committed/tracked files** jayenge. Pehle \`git add -A && git commit\` karna mat bhoolo
+
+## API se kuch bhi karna (gh-api.py)
+
+\`\`\`bash
+PYTHONPATH=/opt/muse/skills/custom-connector-setup/bin \\
+~/workspace/custom-connectors/custom.legacy-github/bin/gh-api.py \\
+  GET /repos/dusmamud/dusrel
+\`\`\`
+
+Naya repo banana: \`POST /user/repos '{"name":"mera-repo","private":false}'\`
+
+## PAT ki limits (yaad rakho)
+
+1. **\`workflow\` scope NAHI hai** — \`.github/workflows/*\` files push nahi hoti (tree creation 404). Workaround: workflow file GitHub web UI se manually add karo, ya \`workflow\` scope wala naya PAT banao. *(Isi liye Ricsline ka autodeploy cron hai.)*
+2. **Naya khaali repo 409 deta hai** — API se banaya repo pehle push par \`409 Git Repository is empty\` fail hota hai. **Fix:** pehle \`PUT /contents/README.md\` se ek seed commit karo, phir gh-push chalega.
+
+## Git author config
+
+Har repo clone mein repo-local author set karo:
+
+\`\`\`bash
+git config user.name "Muse"
+git config user.email "muse@<product>.local"
+\`\`\`
+`},{slug:`cloudflare`,title:`Cloudflare, DNS aur email`,md:`# Cloudflare, DNS aur email
+
+## ⚠️ Standing rule (sabse pehle)
+
+> **Cloudflare (ya kisi infra) mein koi edit/change SIRF tumhare explicit bole par hota hai.** Warna sirf read + report. Yeh rule kabhi mat todo.
+
+## Setup ek nazar mein
+
+| Cheez | Kahan hai |
+|---|---|
+| Domain | \`dusrel.com\` |
+| DNS | **Spaceship** (registrar) |
+| Hosting | Cloudflare Pages — projects: \`dusrel\` (dusrel.com), \`shrinkit-dr\` (shrinkit.dusrel.com) |
+| Analytics | Cloudflare Web Analytics (cookie-less) |
+| Email | Cloudflare Email Routing → \`hello@dusrel.com\` |
+
+## Email Routing ki limit
+
+\`hello@dusrel.com\` sirf **incoming mail forward** karta hai tumhare Gmail par. Isse mail **bhej nahi sakte**. Send + receive dono chahiye toh full mailbox lagega (jaise Zoho Mail free plan) — abhi pending decision hai.
+
+## CNAME kaise add hota hai (example)
+
+Naya subdomain (jaise \`imagequill.dusrel.com\`) ke liye DNS record **Spaceship** par add hota hai — yeh tum khud karte ho (2026-10-15 ko imagequill ka CNAME tumne hi add kiya tha).
+
+## Kuch gadbad lage toh
+
+Pehle diagnose karo (read-only), user ko batao, **phir** uske bole par hi change karo. Galti se "fix" karne ke chakkar mein live site mat todo.
+`},{slug:`logo-rules`,title:`Logo & icon rules`,md:`# Logo & icon rules
+
+## 1024×1024 app icon — safe zone (STANDING RULE)
+
+Koi bhi logo jo 1024×1024 app icon banega, uska **critical content center 80% (~820px) ke andar** hona chahiye. Bahar ka hissa squircle/system mask kaat deta hai.
+
+| Platform | Safe area |
+|---|---|
+| General | 820px (center 80%) |
+| Android adaptive | ~626px guaranteed-safe (max ~683px) |
+| iOS | Critical marks 820px ke andar; corners kabhi pre-round mat karo |
+
+## PWA / maskable icons
+
+**Maskable icons mein hamesha solid background** — transparent kabhi nahi (tumhara rule).
+
+## Design language
+
+- **Professional, clean, minimalist** — no glow, no neon, no futuristic styling
+- Dusrel wordmark: **Sora Bold** (Poppins reject ho chuka hai)
+- Docs/site body font: **Inter**, headings: **Sora** — dusrel.com se match karta hai
+- Dusrel brand blue: \`#4d90fe\`
+
+## Raster → SVG pipeline (agar logo redraw karna ho)
+
+\`~/workspace/logo/\` mein reference pipeline hai: gradient watershed → contour tracing → smoothing → corner detection → Bezier fitting. Gradient 1D axis fit se. Verify: actual SVG path ko rasterize karke original se pixel-diff karo.
+
+## Logo delivery rule
+
+Jab logo deliver karo toh **chat mein bhejo AUR project folder mein save karo** — dono. Sirf ek jagah nahi.
+
+## App logos ka store
+
+Tumhare approved app logos: \`~/workspace/logo/dusrel-apps/\` — sirf wahi save hota hai jo tum naam karke bhejte ho, kuch extra nahi. Dusrel sparkle source: \`~/workspace/logo/sparkle.svg\`.
+`},{slug:`naya-product`,title:`Naya product banane ki checklist`,md:`# Naya Dusrel product banane ki checklist
+
+Jab bhi naya app/product banao, is order mein kaam karo:
+
+## 1. Hub mein folder
+
+\`\`\`
+~/workspace/dusrel/<platform>/<repo-naam>/
+   web-apps/ · android-apps/ · ios-apps/ · extensions/ · site/
+\`\`\`
+
+> **Folder naam = GitHub repo naam.** Dusrel product ke liye \`~/workspace/\` mein top-level folder **kabhi nahi**.
+
+## 2. GitHub repo
+
+- \`dusmamud/<repo-naam>\` par repo banao (public ya private, product ke hisaab se)
+- Naya khaali repo push par 409 de toh pehle seed commit (**GitHub push** chapter)
+
+## 3. dusrel.com registry update
+
+\`~/workspace/dusrel/README.md\` ke map mein naya product add karo — yeh master registry hai.
+
+## 4. Branding (day 1 se)
+
+Text co-branding pattern lagao: header \`by Dusrel\` + footer \`A Dusrel product\` → \`https://dusrel.com\` + About paragraph. Product logo untouched, sparkle UI mein nahi. (**Branding rules** chapter)
+
+## 5. dusrel.com par app add karo
+
+\`apps.ts\` entry → i18n content (EN+HI) → feature icons → \`public/icons/<slug>.svg\` + showcase image → build. (**"Landing page par naya app add karna"** chapter)
+
+## 6. Downloads (agar app downloadable hai)
+
+File \`public/downloads/\` mein + \`downloads.ts\` entry → download pages auto. (**"Download pages banana"** chapter)
+
+## 7. LICENSE
+
+Sab repos par **All Rights Reserved** (proprietary, source-viewable only) — MIT **nahi**:
+
+\`\`\`
+Copyright (c) 2026 dusmamud
+\`\`\`
+
+## 8. Docs mein entry
+
+Isi docs site mein product ka chapter add karo — \`src/content/\` mein \`.md\` + \`src/docs.ts\` mein ek line. Taaki 6 mahine baad bhi yaad rahe ki yeh product kaise manage hota hai.
 `}]},{title:`dusrel.com — Rules & Ops`,chapters:[{slug:`branding`,title:`Dusrel branding rules`,md:`# Dusrel branding rules
 
 Yeh rules **saare Dusrel products** par lagu hote hain — web apps, Android, extension, aur dusrel.com khud.
@@ -410,4 +588,4 @@ Settings mein kuch gadbad lage toh **khud change mat karo** — pehle batao. Sta
 ## 8. Is docs site mein secrets likhna
 
 Yeh repo **public** hai. Ismein kabhi password, API key, token, ya private info mat likhna — chahe "yaad rahe" isliye hi kyun na ho. Secrets ke liye Secure Vault hai.
-`}]}],of=af.flatMap(e=>e.chapters);function sf(e){return of.find(t=>t.slug===e)??of[0]}function cf(){let e=window.location.hash.match(/^#\/([\w-]+)/);return e?e[1]:`overview`}function lf(){let[e,t]=(0,v.useState)(cf),[n,r]=(0,v.useState)(()=>window.matchMedia?.(`(prefers-color-scheme: dark)`).matches??!1),[i,a]=(0,v.useState)(!1);(0,v.useEffect)(()=>{let e=()=>{t(cf()),a(!1),window.scrollTo(0,0)};return window.addEventListener(`hashchange`,e),()=>window.removeEventListener(`hashchange`,e)},[]),(0,v.useEffect)(()=>{document.documentElement.classList.toggle(`dark`,n)},[n]);let o=(0,v.useMemo)(()=>sf(e),[e]),s=of.findIndex(e=>e.slug===o.slug),c=of[s-1],l=of[s+1];return(0,G.jsxs)(`div`,{className:`min-h-screen bg-white text-slate-900 dark:bg-[#0f1115] dark:text-[#e8eaed]`,children:[(0,G.jsx)(`header`,{className:`sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-[#0f1115]/90`,children:(0,G.jsxs)(`div`,{className:`mx-auto flex h-14 max-w-6xl items-center gap-3 px-4`,children:[(0,G.jsx)(`button`,{className:`rounded-lg p-2 hover:bg-slate-100 md:hidden dark:hover:bg-white/10`,onClick:()=>a(e=>!e),"aria-label":`Menu`,children:(0,G.jsxs)(`svg`,{width:`20`,height:`20`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,children:[(0,G.jsx)(`line`,{x1:`4`,y1:`7`,x2:`20`,y2:`7`}),(0,G.jsx)(`line`,{x1:`4`,y1:`12`,x2:`20`,y2:`12`}),(0,G.jsx)(`line`,{x1:`4`,y1:`17`,x2:`20`,y2:`17`})]})}),(0,G.jsxs)(`a`,{href:`#/overview`,className:`flex items-center gap-2.5`,children:[(0,G.jsx)(`span`,{className:`flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#4d90fe] to-[#2b5fd9] text-sm font-extrabold text-white`,children:`D`}),(0,G.jsxs)(`span`,{className:`font-bold tracking-tight`,children:[`Dusrel `,(0,G.jsx)(`span`,{className:`font-normal text-slate-500 dark:text-slate-400`,children:`Site Docs`})]})]}),(0,G.jsx)(`span`,{className:`ml-1 hidden rounded-full bg-[#4d90fe]/10 px-2.5 py-0.5 text-xs font-semibold text-[#2b5fd9] sm:inline dark:text-[#8ab4ff]`,children:`internal`}),(0,G.jsx)(`div`,{className:`ml-auto`,children:(0,G.jsx)(`button`,{onClick:()=>r(e=>!e),className:`rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium hover:border-[#4d90fe] dark:border-white/15`,"aria-label":`Theme toggle`,children:n?`☀️ Light`:`🌙 Dark`})})]})}),(0,G.jsxs)(`div`,{className:`mx-auto flex max-w-6xl`,children:[(0,G.jsx)(`aside`,{className:`fixed inset-y-0 left-0 z-10 w-72 shrink-0 transform border-r border-slate-200 bg-white pt-14 transition-transform md:static md:z-auto md:block md:translate-x-0 md:border-r-0 md:pt-0 dark:border-white/10 dark:bg-[#0f1115] ${i?`translate-x-0`:`-translate-x-full`}`,children:(0,G.jsx)(`nav`,{className:`h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-6 md:sticky md:top-14`,children:af.map(e=>(0,G.jsxs)(`div`,{className:`mb-6`,children:[(0,G.jsx)(`p`,{className:`mb-2 px-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500`,children:e.title}),(0,G.jsx)(`ul`,{className:`space-y-0.5`,children:e.chapters.map(e=>(0,G.jsx)(`li`,{children:(0,G.jsx)(`a`,{href:`#/${e.slug}`,className:`block rounded-lg px-3 py-2 text-sm transition-colors ${e.slug===o.slug?`bg-[#4d90fe]/10 font-semibold text-[#2b5fd9] dark:text-[#8ab4ff]`:`text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/5`}`,children:e.title})},e.slug))})]},e.title))})}),i&&(0,G.jsx)(`div`,{className:`fixed inset-0 z-[5] bg-black/40 md:hidden`,onClick:()=>a(!1)}),(0,G.jsxs)(`main`,{className:`min-w-0 flex-1 px-4 py-8 md:px-10 md:py-10`,children:[(0,G.jsx)(`article`,{className:`md-body max-w-3xl`,children:(0,G.jsx)(yo,{remarkPlugins:[Cl],rehypePlugins:[nf],children:o.md})}),(0,G.jsxs)(`div`,{className:`mt-12 flex max-w-3xl gap-4 border-t border-slate-200 pt-6 dark:border-white/10`,children:[c?(0,G.jsxs)(`a`,{href:`#/${c.slug}`,className:`flex-1 rounded-xl border border-slate-200 p-4 hover:border-[#4d90fe] dark:border-white/10`,children:[(0,G.jsx)(`p`,{className:`text-xs text-slate-400`,children:`← Pichla`}),(0,G.jsx)(`p`,{className:`mt-1 font-semibold`,children:c.title})]}):(0,G.jsx)(`div`,{className:`flex-1`}),l?(0,G.jsxs)(`a`,{href:`#/${l.slug}`,className:`flex-1 rounded-xl border border-slate-200 p-4 text-right hover:border-[#4d90fe] dark:border-white/10`,children:[(0,G.jsx)(`p`,{className:`text-xs text-slate-400`,children:`Agla →`}),(0,G.jsx)(`p`,{className:`mt-1 font-semibold`,children:l.title})]}):(0,G.jsx)(`div`,{className:`flex-1`})]}),(0,G.jsxs)(`footer`,{className:`mt-10 max-w-3xl pb-8 text-sm text-slate-400 dark:text-slate-500`,children:[`Dusrel internal docs — repo: `,(0,G.jsx)(`span`,{className:`font-mono`,children:`dusmamud/dusrel-site-docs`})]})]})]})]})}(0,y.createRoot)(document.getElementById(`root`)).render((0,G.jsx)(v.StrictMode,{children:(0,G.jsx)(lf,{})}));
+`}]}],of=af.flatMap(e=>e.chapters);function sf(e){return of.find(t=>t.slug===e)??of[0]}function cf(){let e=window.location.hash.match(/^#\/([\w-]+)/);return e?e[1]:`overview`}function lf(){let[e,t]=(0,v.useState)(cf),[n,r]=(0,v.useState)(()=>window.matchMedia?.(`(prefers-color-scheme: dark)`).matches??!1),[i,a]=(0,v.useState)(!1);(0,v.useEffect)(()=>{let e=()=>{t(cf()),a(!1),window.scrollTo(0,0)};return window.addEventListener(`hashchange`,e),()=>window.removeEventListener(`hashchange`,e)},[]),(0,v.useEffect)(()=>{document.documentElement.classList.toggle(`dark`,n)},[n]);let o=(0,v.useMemo)(()=>sf(e),[e]),s=of.findIndex(e=>e.slug===o.slug),c=of[s-1],l=of[s+1];return(0,G.jsxs)(`div`,{className:`min-h-screen bg-white text-slate-900 dark:bg-[#0f1115] dark:text-[#e8eaed]`,children:[(0,G.jsx)(`header`,{className:`sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-[#0f1115]/90`,children:(0,G.jsxs)(`div`,{className:`mx-auto flex h-14 max-w-6xl items-center gap-3 px-4`,children:[(0,G.jsx)(`button`,{className:`rounded-lg p-2 hover:bg-slate-100 md:hidden dark:hover:bg-white/10`,onClick:()=>a(e=>!e),"aria-label":`Menu`,children:(0,G.jsxs)(`svg`,{width:`20`,height:`20`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,children:[(0,G.jsx)(`line`,{x1:`4`,y1:`7`,x2:`20`,y2:`7`}),(0,G.jsx)(`line`,{x1:`4`,y1:`12`,x2:`20`,y2:`12`}),(0,G.jsx)(`line`,{x1:`4`,y1:`17`,x2:`20`,y2:`17`})]})}),(0,G.jsxs)(`a`,{href:`#/overview`,className:`flex items-center gap-2.5`,children:[(0,G.jsx)(`span`,{className:`flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#4d90fe] to-[#2b5fd9] text-sm font-extrabold text-white`,children:`D`}),(0,G.jsxs)(`span`,{className:`font-display font-bold tracking-tight`,children:[`Dusrel `,(0,G.jsx)(`span`,{className:`font-normal text-slate-500 dark:text-slate-400`,children:`Site Docs`})]})]}),(0,G.jsx)(`span`,{className:`ml-1 hidden rounded-full bg-[#4d90fe]/10 px-2.5 py-0.5 text-xs font-semibold text-[#2b5fd9] sm:inline dark:text-[#8ab4ff]`,children:`internal`}),(0,G.jsx)(`div`,{className:`ml-auto`,children:(0,G.jsx)(`button`,{onClick:()=>r(e=>!e),className:`rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium hover:border-[#4d90fe] dark:border-white/15`,"aria-label":`Theme toggle`,children:n?`☀️ Light`:`🌙 Dark`})})]})}),(0,G.jsxs)(`div`,{className:`mx-auto flex max-w-6xl`,children:[(0,G.jsx)(`aside`,{className:`fixed inset-y-0 left-0 z-10 w-72 shrink-0 transform border-r border-slate-200 bg-white pt-14 transition-transform md:static md:z-auto md:block md:translate-x-0 md:border-r-0 md:pt-0 dark:border-white/10 dark:bg-[#0f1115] ${i?`translate-x-0`:`-translate-x-full`}`,children:(0,G.jsx)(`nav`,{className:`h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-6 md:sticky md:top-14`,children:af.map(e=>(0,G.jsxs)(`div`,{className:`mb-6`,children:[(0,G.jsx)(`p`,{className:`mb-2 px-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500`,children:e.title}),(0,G.jsx)(`ul`,{className:`space-y-0.5`,children:e.chapters.map(e=>(0,G.jsx)(`li`,{children:(0,G.jsx)(`a`,{href:`#/${e.slug}`,className:`block rounded-lg px-3 py-2 text-sm transition-colors ${e.slug===o.slug?`bg-[#4d90fe]/10 font-semibold text-[#2b5fd9] dark:text-[#8ab4ff]`:`text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/5`}`,children:e.title})},e.slug))})]},e.title))})}),i&&(0,G.jsx)(`div`,{className:`fixed inset-0 z-[5] bg-black/40 md:hidden`,onClick:()=>a(!1)}),(0,G.jsxs)(`main`,{className:`min-w-0 flex-1 px-4 py-8 md:px-10 md:py-10`,children:[(0,G.jsx)(`article`,{className:`md-body max-w-3xl`,children:(0,G.jsx)(yo,{remarkPlugins:[Cl],rehypePlugins:[nf],children:o.md})}),(0,G.jsxs)(`div`,{className:`mt-12 flex max-w-3xl gap-4 border-t border-slate-200 pt-6 dark:border-white/10`,children:[c?(0,G.jsxs)(`a`,{href:`#/${c.slug}`,className:`flex-1 rounded-xl border border-slate-200 p-4 hover:border-[#4d90fe] dark:border-white/10`,children:[(0,G.jsx)(`p`,{className:`text-xs text-slate-400`,children:`← Pichla`}),(0,G.jsx)(`p`,{className:`mt-1 font-semibold`,children:c.title})]}):(0,G.jsx)(`div`,{className:`flex-1`}),l?(0,G.jsxs)(`a`,{href:`#/${l.slug}`,className:`flex-1 rounded-xl border border-slate-200 p-4 text-right hover:border-[#4d90fe] dark:border-white/10`,children:[(0,G.jsx)(`p`,{className:`text-xs text-slate-400`,children:`Agla →`}),(0,G.jsx)(`p`,{className:`mt-1 font-semibold`,children:l.title})]}):(0,G.jsx)(`div`,{className:`flex-1`})]}),(0,G.jsxs)(`footer`,{className:`mt-10 max-w-3xl pb-8 text-sm text-slate-400 dark:text-slate-500`,children:[`Dusrel internal docs — repo: `,(0,G.jsx)(`span`,{className:`font-mono`,children:`dusmamud/dusrel-site-docs`})]})]})]})]})}(0,y.createRoot)(document.getElementById(`root`)).render((0,G.jsx)(v.StrictMode,{children:(0,G.jsx)(lf,{})}));
