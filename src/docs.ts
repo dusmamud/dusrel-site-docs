@@ -6,6 +6,7 @@ import nayaApp from './content/naya-app-add-karna.md?raw';
 import downloadPages from './content/download-pages.md?raw';
 import toolsPages from './content/tools-pages.md?raw';
 import i18n from './content/i18n.md?raw';
+import publicDocs from './content/public-docs-system.md?raw';
 import iconsImages from './content/icons-images.md?raw';
 import seo from './content/seo-checklist.md?raw';
 import branding from './content/branding-rules.md?raw';
@@ -54,6 +55,7 @@ export const sections: Section[] = [
   {
     title: 'dusrel.com — Content',
     chapters: [
+      { slug: 'public-docs', title: 'Public docs (/docs/) — planned system', md: publicDocs },
       { slug: 'i18n', title: 'Hindi/English (i18n) system', md: i18n },
       { slug: 'icons-images', title: 'Icons aur images ke rules', md: iconsImages },
       { slug: 'seo', title: 'SEO checklist', md: seo },
