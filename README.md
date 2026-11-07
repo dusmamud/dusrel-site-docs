@@ -33,3 +33,4 @@ npm run build    # production build → dist/
 All Rights Reserved — proprietary, source-viewable only.
 Copyright (c) 2026 dusmamud.
 Tip: run `npx tsc --noEmit` to type-check the docs site without producing a build.
+Tip: a new chapter needs both a Markdown file in `src/content/` and one import + one entry in `src/docs.ts` — the file alone will not appear in the docs.
